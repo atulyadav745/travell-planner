@@ -22,6 +22,7 @@ export default function HomePage() {
             variant="contained" 
             size="large"
             onClick={() => router.push('/create')}
+            sx={{ minWidth: 200, height: 48 }}
           >
             Create New Trip
           </Button>

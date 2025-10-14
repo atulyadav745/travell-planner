@@ -10,6 +10,7 @@ import {
   Paper,
   Stack,
   TextField,
+  CircularProgress,
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -95,8 +96,27 @@ export default function CreateTrip() {
               onClick={handleCreateTrip}
               disabled={loading || !city || !startDate || !endDate}
               size="large"
+              sx={{ 
+                minWidth: 200,
+                height: 48,
+                position: 'relative'
+              }}
             >
-              Create Trip
+              {loading ? (
+                <>
+                  <Box sx={{ 
+                    position: 'absolute',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1
+                  }}>
+                    <CircularProgress size={24} color="inherit" />
+                  </Box>
+                  Creating...
+                </>
+              ) : (
+                'Create Trip'
+              )}
             </Button>
           </Stack>
         </Paper>

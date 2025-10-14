@@ -1,17 +1,16 @@
 'use client';
 
-import { Card, CardContent, Typography, Button, CardActions } from '@mui/material';
-import { Activity } from '@/types'; // Import from our new types file
-
-// Remove the local Activity interface definition as it's now in types.ts
+import { Card, CardContent, Typography, Button, CardActions, CircularProgress } from '@mui/material';
+import { Activity } from '@/types';
 
 interface ActivityCardProps {
   activity: Activity;
   onAddToTrip: (activityId: string) => void;
-  isSelected: boolean; // New prop to check if it's already selected
+  isSelected: boolean;
+  isLoading?: boolean; // New prop to show loading state
 }
 
-export default function ActivityCard({ activity, onAddToTrip, isSelected }: ActivityCardProps) {
+export default function ActivityCard({ activity, onAddToTrip, isSelected, isLoading = false }: ActivityCardProps) {
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent>
@@ -26,8 +25,22 @@ export default function ActivityCard({ activity, onAddToTrip, isSelected }: Acti
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => onAddToTrip(activity.id)} disabled={isSelected}>
-          {isSelected ? 'Added' : 'Add to Trip'}
+        <Button 
+          size="small" 
+          onClick={() => onAddToTrip(activity.id)} 
+          disabled={isSelected || isLoading}
+          sx={{ minWidth: 100, position: 'relative' }}
+        >
+          {isLoading ? (
+            <>
+              <CircularProgress size={20} color="inherit" sx={{ position: 'absolute' }} />
+              <span style={{ opacity: 0 }}>Adding...</span>
+            </>
+          ) : isSelected ? (
+            'Added'
+          ) : (
+            'Add to Trip'
+          )}
         </Button>
       </CardActions>
     </Card>

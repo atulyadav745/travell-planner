@@ -28,6 +28,7 @@ export default function TripPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [loadingActivities, setLoadingActivities] = useState<Record<string, boolean>>({});
   // State for the "Link Copied" notification
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [shareUrl, setShareUrl] = useState<string>('');
@@ -95,12 +96,18 @@ export default function TripPage() {
 
   // ... (handleAddToTrip, handleGenerateSchedule, and handleScheduleUpdate functions remain the same)
   const handleAddToTrip = async (activityId: string) => {
+    // Set loading state for this specific activity
+    setLoadingActivities(prev => ({ ...prev, [activityId]: true }));
+    
     try {
       const response = await axios.post(`/api/trips/${tripId}/select-activity`, { activityId });
       setTrip(response.data);
     } catch (err) {
       console.error('Failed to add activity:', err);
-      alert('Error: Could not add activity to trip.');
+      setError('Could not add activity to trip. Please try again.');
+    } finally {
+      // Clear loading state for this activity
+      setLoadingActivities(prev => ({ ...prev, [activityId]: false }));
     }
   };
   const handleGenerateSchedule = async () => {
@@ -185,6 +192,7 @@ export default function TripPage() {
                 activity={activity}
                 onAddToTrip={handleAddToTrip}
                 isSelected={trip?.selectedActivityIds.includes(activity.id) || false}
+                isLoading={loadingActivities[activity.id] || false}
               />
             ))}
           </Box>

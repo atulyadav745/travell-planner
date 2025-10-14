@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TextField, Autocomplete } from '@mui/material';
+import { TextField, Autocomplete, CircularProgress } from '@mui/material';
 import axios from 'axios';
 
 interface CitySelectProps {
@@ -40,6 +40,15 @@ export default function CitySelect({ value, onChange, disabled = false }: CitySe
           label="Select City"
           variant="outlined"
           fullWidth
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <>
+                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                {params.InputProps.endAdornment}
+              </>
+            ),
+          }}
         />
       )}
     />
