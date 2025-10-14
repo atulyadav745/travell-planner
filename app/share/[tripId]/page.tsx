@@ -33,7 +33,8 @@ async function getTripData(tripId: string): Promise<Trip | null> {
   }
 }
 
-export default async function SharePage({ params }: { params: { tripId: string } }) {
+export default async function SharePage(props: { params: Promise<{ tripId: string }> }) {
+  const params = await props.params;
   const trip = await getTripData(params.tripId);
 
   return (
