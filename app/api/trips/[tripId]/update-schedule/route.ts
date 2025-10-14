@@ -5,10 +5,10 @@ import prisma from '@/lib/prisma';
 // with their potentially new day and order.
 export async function PUT(
   request: Request,
-  { params }: { params: { tripId: string } }
+  context: any
 ) {
   try {
-    const tripId = params.tripId;
+    const tripId = context?.params?.tripId;
     const body: { id: string; day: number; order: number }[] = await request.json();
 
     if (!Array.isArray(body)) {

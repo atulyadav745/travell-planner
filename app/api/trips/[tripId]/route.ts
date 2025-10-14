@@ -4,12 +4,11 @@ import prisma from '@/lib/prisma';
 // The key change is in the function's second argument signature
 export async function GET(
   request: Request,
-  { params }: { params: { tripId: string } }
+  context: any
 ) {
   try {
-    // Await params before using its properties (Next.js dynamic API requirement)
-    const awaitedParams = await params;
-    const { tripId } = awaitedParams;
+    const params = await context.params;
+    const tripId = params.tripId;
 
     const trip = await prisma.trip.findUnique({
       where: {
