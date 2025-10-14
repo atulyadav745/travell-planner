@@ -8,9 +8,9 @@ const selectActivitySchema = z.object({
 
 export async function POST(
   request: Request,
-  context: any
+  context: { params: Promise<{ tripId: string }> }
 ) {
-  const tripId = context?.params?.tripId;
+  const { tripId } = await context.params;
   if (!tripId) {
     return NextResponse.json({ error: 'Trip ID is required' }, { status: 400 });
   }

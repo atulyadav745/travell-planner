@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, ActivityType } from '@prisma/client';
 
 // Initialize the Prisma Client
 const prisma = new PrismaClient();
@@ -11,6 +11,9 @@ const activities = [
     latitude: 48.8584,
     longitude: 2.2945,
     typicalDuration: 120, // 2 hours
+    activityType: ActivityType.LANDMARK,
+    priority: 5, // High priority as it's an iconic landmark
+    bestTimeOfDay: 'AFTERNOON',
   },
   {
     name: 'Louvre Museum',
@@ -19,6 +22,9 @@ const activities = [
     latitude: 48.8606,
     longitude: 2.3376,
     typicalDuration: 240, // 4 hours
+    activityType: ActivityType.MUSEUM,
+    priority: 5,
+    bestTimeOfDay: 'MORNING',
   },
   {
     name: 'Notre-Dame Cathedral',
@@ -27,6 +33,9 @@ const activities = [
     latitude: 48.8530,
     longitude: 2.3499,
     typicalDuration: 60, // 1 hour
+    activityType: ActivityType.LANDMARK,
+    priority: 4,
+    bestTimeOfDay: 'MORNING',
   },
   {
     name: 'Arc de Triomphe',
@@ -35,6 +44,9 @@ const activities = [
     latitude: 48.8738,
     longitude: 2.2950,
     typicalDuration: 45, // 45 minutes
+    activityType: ActivityType.LANDMARK,
+    priority: 3,
+    bestTimeOfDay: 'AFTERNOON',
   },
   {
     name: 'Sacre-Coeur Basilica',
@@ -43,6 +55,9 @@ const activities = [
     latitude: 48.8867,
     longitude: 2.3431,
     typicalDuration: 60, // 1 hour
+    activityType: ActivityType.LANDMARK,
+    priority: 4,
+    bestTimeOfDay: 'MORNING',
   },
   {
     name: 'Musée d\'Orsay',
@@ -51,6 +66,9 @@ const activities = [
     latitude: 48.8600,
     longitude: 2.3265,
     typicalDuration: 150, // 2.5 hours
+    activityType: ActivityType.MUSEUM,
+    priority: 4,
+    bestTimeOfDay: 'AFTERNOON',
   },
   {
     name: 'Sainte-Chapelle',
@@ -59,6 +77,9 @@ const activities = [
     latitude: 48.8554,
     longitude: 2.3450,
     typicalDuration: 45, // 45 minutes
+    activityType: ActivityType.LANDMARK,
+    priority: 3,
+    bestTimeOfDay: 'MORNING',
   },
   {
     name: 'Jardin du Luxembourg',
@@ -67,6 +88,9 @@ const activities = [
     latitude: 48.8462,
     longitude: 2.3372,
     typicalDuration: 90, // 1.5 hours
+    activityType: ActivityType.PARK,
+    priority: 3,
+    bestTimeOfDay: 'AFTERNOON',
   },
   {
     name: 'Montmartre',
@@ -75,6 +99,9 @@ const activities = [
     latitude: 48.8867,
     longitude: 2.3431,
     typicalDuration: 180, // 3 hours
+    activityType: ActivityType.LANDMARK,
+    priority: 4,
+    bestTimeOfDay: 'MORNING',
   },
   {
     name: 'Palace of Versailles',
@@ -83,6 +110,9 @@ const activities = [
     latitude: 48.8049,
     longitude: 2.1204,
     typicalDuration: 300, // 5 hours
+    activityType: ActivityType.LANDMARK,
+    priority: 5,
+    bestTimeOfDay: 'MORNING',
   },
   {
     name: 'Moulin Rouge',
@@ -91,6 +121,9 @@ const activities = [
     latitude: 48.8841,
     longitude: 2.3322,
     typicalDuration: 120, // 2 hours for a show
+    activityType: ActivityType.ENTERTAINMENT,
+    priority: 3,
+    bestTimeOfDay: 'EVENING',
   },
   {
     name: 'Catacombs of Paris',
@@ -99,6 +132,9 @@ const activities = [
     latitude: 48.8338,
     longitude: 2.3324,
     typicalDuration: 60, // 1 hour
+    activityType: ActivityType.LANDMARK,
+    priority: 3,
+    bestTimeOfDay: 'AFTERNOON',
   }
 ];
 

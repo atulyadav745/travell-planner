@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Typography, Paper, Grid, Card, CardContent } from '@mui/material';
-import { Trip, ScheduledActivity } from '@/types';
+import { Trip, ScheduledActivity } from '@/types/base';
 
 interface ShareableItineraryProps {
   trip: Trip | null;

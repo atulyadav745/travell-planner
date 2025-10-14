@@ -19,10 +19,32 @@ model Trip {
   endDate             DateTime
   selectedActivityIds String[]
   scheduledActivities ScheduledActivity[]
+  shareTokens         ShareToken[]        // Add relation to ShareToken
+}
+
+// 4. Stores share tokens for trips
+model ShareToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  tripId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  @@index([token])
 }
 
 // 2. The master list of all available activities for our app.
 // We will manually add data here for one city (e.g., Paris).
+enum ActivityType {
+  MUSEUM
+  LANDMARK
+  PARK
+  RESTAURANT
+  SHOPPING
+  ENTERTAINMENT
+}
+
 model Activity {
   id                  String              @id @default(cuid())
   name                String
@@ -31,6 +53,9 @@ model Activity {
   latitude            Float
   longitude           Float
   typicalDuration     Int // Duration in minutes
+  activityType        ActivityType
+  priority            Int                 @default(1) // 1-5, helps with scheduling
+  bestTimeOfDay      String?             // MORNING, AFTERNOON, EVENING, or null
   scheduledActivities ScheduledActivity[]
 }
 
