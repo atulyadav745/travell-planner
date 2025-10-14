@@ -6,10 +6,10 @@ const googleMapsClient = new Client({});
 
 export async function POST(
   request: Request,
-  context: any
+  context: { params: Promise<{ tripId: string }> }
 ) {
   try {
-    const tripId = context?.params?.tripId;
+    const { tripId } = await context.params;
 
     const trip = await prisma.trip.findUnique({
       where: { id: tripId },

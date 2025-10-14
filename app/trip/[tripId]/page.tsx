@@ -17,7 +17,7 @@ import {
 import ShareIcon from '@mui/icons-material/Share'; // Import the Share Icon
 import ActivityCard from '@/components/ActivityCard';
 import ItineraryDisplay from '@/components/ItineraryDisplay';
-import { Activity, Trip, ScheduledActivity } from '@/types';
+import { Activity, Trip, ScheduledActivity } from '@/types/base';
 
 export default function TripPage() {
   const params = useParams();
@@ -30,9 +30,36 @@ export default function TripPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   // State for the "Link Copied" notification
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [shareUrl, setShareUrl] = useState<string>('');
+  const [isGeneratingShareLink, setIsGeneratingShareLink] = useState(false);
+
+  const generateShareLink = async () => {
+    try {
+      setIsGeneratingShareLink(true);
+      const response = await axios.post('/api/trips/share', { tripId });
+      const { token } = response.data;
+      const shareUrl = `${window.location.origin}/share/${token}`;
+      setShareUrl(shareUrl);
+      await navigator.clipboard.writeText(shareUrl);
+      setOpenSnackbar(true);
+    } catch (error) {
+      console.error('Error generating share link:', error);
+      setError('Failed to generate share link.');
+    } finally {
+      setIsGeneratingShareLink(false);
+    }
+  };
+
+  const handleShareClick = () => {
+    if (!shareUrl) {
+      generateShareLink();
+    } else {
+      navigator.clipboard.writeText(shareUrl);
+      setOpenSnackbar(true);
+    }
+  };
 
   const fetchTripData = useCallback(async () => {
-    // ... (This function remains the same)
     if (!tripId) return;
     try {
       const response = await axios.get(`/api/trips/${tripId}`);
@@ -107,16 +134,6 @@ export default function TripPage() {
       }
   };
 
-  // ===================================================================
-  // FINAL STEP: Add the Share Button Handler
-  // ===================================================================
-  const handleShare = () => {
-    const shareUrl = `${window.location.origin}/share/${tripId}`;
-    navigator.clipboard.writeText(shareUrl).then(() => {
-      setOpenSnackbar(true);
-    });
-  };
-
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
@@ -146,8 +163,9 @@ export default function TripPage() {
             </Button>
             <Button 
                 variant="outlined" 
-                startIcon={<ShareIcon />}
-                onClick={handleShare}
+                startIcon={isGeneratingShareLink ? <CircularProgress size={20} /> : <ShareIcon />}
+                onClick={handleShareClick}
+                disabled={isGeneratingShareLink}
             >
                 Share
             </Button>
