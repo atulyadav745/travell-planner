@@ -3,7 +3,7 @@ import { PrismaClient, ActivityType } from '@prisma/client';
 // Initialize the Prisma Client
 const prisma = new PrismaClient();
 
-const activities = [
+const parisActivities = [
   {
     name: 'Eiffel Tower',
     description: 'Iconic wrought-iron lattice tower. Climb or take an elevator for panoramic city views.',
@@ -138,14 +138,135 @@ const activities = [
   }
 ];
 
+const londonActivities = [
+  {
+    name: 'Tower of London',
+    description: 'Historic castle and fortress on the north bank of the River Thames. Home to the Crown Jewels.',
+    city: 'London',
+    latitude: 51.5081,
+    longitude: -0.0759,
+    typicalDuration: 180, // 3 hours
+    activityType: ActivityType.LANDMARK,
+    priority: 5,
+    bestTimeOfDay: 'MORNING',
+  },
+  {
+    name: 'British Museum',
+    description: 'World-famous museum of human history and culture, featuring the Rosetta Stone and Egyptian mummies.',
+    city: 'London',
+    latitude: 51.5194,
+    longitude: -0.1269,
+    typicalDuration: 240, // 4 hours
+    activityType: ActivityType.MUSEUM,
+    priority: 5,
+    bestTimeOfDay: 'MORNING',
+  },
+  {
+    name: 'Westminster Abbey',
+    description: 'Gothic church and UNESCO World Heritage site, hosting royal coronations and burials.',
+    city: 'London',
+    latitude: 51.4994,
+    longitude: -0.1275,
+    typicalDuration: 120, // 2 hours
+    activityType: ActivityType.LANDMARK,
+    priority: 4,
+    bestTimeOfDay: 'MORNING',
+  },
+  {
+    name: 'Buckingham Palace',
+    description: 'Official London residence of the British monarch, with ceremonial guard changes.',
+    city: 'London',
+    latitude: 51.5014,
+    longitude: -0.1419,
+    typicalDuration: 90, // 1.5 hours
+    activityType: ActivityType.LANDMARK,
+    priority: 4,
+    bestTimeOfDay: 'MORNING',
+  },
+  {
+    name: 'London Eye',
+    description: 'Giant Ferris wheel offering panoramic views of the city.',
+    city: 'London',
+    latitude: 51.5033,
+    longitude: -0.1195,
+    typicalDuration: 60, // 1 hour
+    activityType: ActivityType.ENTERTAINMENT,
+    priority: 3,
+    bestTimeOfDay: 'AFTERNOON',
+  }
+];
+
+const romeActivities = [
+  {
+    name: 'Colosseum',
+    description: 'Iconic ancient amphitheater, symbol of Imperial Rome.',
+    city: 'Rome',
+    latitude: 41.8902,
+    longitude: 12.4922,
+    typicalDuration: 180, // 3 hours
+    activityType: ActivityType.LANDMARK,
+    priority: 5,
+    bestTimeOfDay: 'MORNING',
+  },
+  {
+    name: 'Vatican Museums',
+    description: 'Vast museum complex featuring the Sistine Chapel and other masterpieces.',
+    city: 'Rome',
+    latitude: 41.9067,
+    longitude: 12.4526,
+    typicalDuration: 240, // 4 hours
+    activityType: ActivityType.MUSEUM,
+    priority: 5,
+    bestTimeOfDay: 'MORNING',
+  },
+  {
+    name: 'Pantheon',
+    description: 'Former Roman temple, now a church, featuring the world\'s largest unreinforced concrete dome.',
+    city: 'Rome',
+    latitude: 41.8986,
+    longitude: 12.4769,
+    typicalDuration: 60, // 1 hour
+    activityType: ActivityType.LANDMARK,
+    priority: 4,
+    bestTimeOfDay: 'AFTERNOON',
+  },
+  {
+    name: 'Trevi Fountain',
+    description: 'Baroque fountain known for coin-tossing tradition.',
+    city: 'Rome',
+    latitude: 41.9009,
+    longitude: 12.4833,
+    typicalDuration: 30, // 30 minutes
+    activityType: ActivityType.LANDMARK,
+    priority: 3,
+    bestTimeOfDay: 'EVENING',
+  },
+  {
+    name: 'Roman Forum',
+    description: 'Sprawling ruins of ancient government buildings at the center of Rome.',
+    city: 'Rome',
+    latitude: 41.8925,
+    longitude: 12.4853,
+    typicalDuration: 120, // 2 hours
+    activityType: ActivityType.LANDMARK,
+    priority: 4,
+    bestTimeOfDay: 'MORNING',
+  }
+];
+
+const allActivities = [...parisActivities, ...londonActivities, ...romeActivities];
+
 async function main() {
   console.log(`Start seeding ...`);
 
   // Clear existing data to prevent duplicates
+  // First delete all scheduled activities that reference activities
+  await prisma.scheduledActivity.deleteMany();
+  // Then delete the activities
   await prisma.activity.deleteMany();
-  console.log('Deleted existing activities.');
+  console.log('Deleted existing activities');
 
-  for (const a of activities) {
+  for (const a of allActivities) {
     const activity = await prisma.activity.create({
       data: a,
     });

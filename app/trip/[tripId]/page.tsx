@@ -71,26 +71,27 @@ export default function TripPage() {
   }, [tripId]);
 
   useEffect(() => {
-    // ... (This useEffect hook remains the same)
     const fetchInitialData = async () => {
       setLoading(true);
       setError(null);
-      await Promise.all([
-        (async () => {
-          try {
-            const response = await axios.get('/api/activities');
-            setActivities(response.data);
-          } catch (err) {
-            console.error('Failed to fetch activities:', err);
-            setError('Could not load available activities.');
-          }
-        })(),
-        fetchTripData(),
-      ]);
-      setLoading(false);
+      try {
+        const tripResponse = await axios.get(`/api/trips/${tripId}`);
+        setTrip(tripResponse.data);
+        
+        // Only fetch activities after we have the trip data
+        if (tripResponse.data?.destination) {
+          const activitiesResponse = await axios.get(`/api/activities?city=${tripResponse.data.destination}`);
+          setActivities(activitiesResponse.data);
+        }
+      } catch (err) {
+        console.error('Failed to fetch data:', err);
+        setError('Could not load trip data.');
+      } finally {
+        setLoading(false);
+      }
     };
     fetchInitialData();
-  }, [tripId, fetchTripData]);
+  }, [tripId]);
 
   // ... (handleAddToTrip, handleGenerateSchedule, and handleScheduleUpdate functions remain the same)
   const handleAddToTrip = async (activityId: string) => {
