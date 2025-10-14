@@ -1,32 +1,39 @@
 import { Container, Typography, Box, Alert } from '@mui/material';
 import ShareableItinerary from '@/components/ShareableItinerary';
 import { Trip } from '@/types';
+import prisma from '@/lib/prisma'; // Import the prisma client directly
 
-// This is a Server Component, so we can fetch data directly.
+// This is a Server Component, so we can fetch data directly from the database.
 async function getTripData(tripId: string): Promise<Trip | null> {
   try {
-    // Construct the full URL for the API endpoint.
-    const baseUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : 'http://localhost:3000';
-    
-    const res = await fetch(`${baseUrl}/api/trips/${tripId}`, {
-        cache: 'no-store' // This ensures we always get the latest version of the itinerary.
+    const trip = await prisma.trip.findUnique({
+      where: {
+        id: tripId,
+      },
+      include: {
+        scheduledActivities: {
+          include: {
+            activity: true,
+          },
+          orderBy: [
+            { day: 'asc' },
+            { order: 'asc' },
+          ],
+        },
+      },
     });
 
-    if (!res.ok) {
-      console.error(`Failed to fetch trip. Status: ${res.status}`);
-      return null;
-    }
-    return res.json();
+    // Prisma returns Date objects, but our Trip type expects strings. We need to serialize it.
+    if (!trip) return null;
+    return JSON.parse(JSON.stringify(trip));
+
   } catch (error) {
     console.error('Error in getTripData:', error);
     return null;
   }
 }
 
-export default async function SharePage(props: { params: Promise<{ tripId: string }> }) {
-  const params = await props.params;
+export default async function SharePage({ params }: { params: { tripId: string } }) {
   const trip = await getTripData(params.tripId);
 
   return (
