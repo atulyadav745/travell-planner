@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 1. Stores the main details for a trip.
+// selectedActivityIds will hold a temporary list of activities a user is interested in.
+model Trip {
+  id                  String              @id @default(cuid())
+  destination         String
+  startDate           DateTime
+  endDate             DateTime
+  selectedActivityIds String[]
+  scheduledActivities ScheduledActivity[]
+}
+
+// 2. The master list of all available activities for our app.
+// We will manually add data here for one city (e.g., Paris).
+model Activity {
+  id                  String              @id @default(cuid())
+  name                String
+  description         String
+  city                String
+  latitude            Float
+  longitude           Float
+  typicalDuration     Int // Duration in minutes
+  scheduledActivities ScheduledActivity[]
+}
+
+// 3. This is the join table that connects a Trip to an Activity for a specific day and order.
+// This table will be populated by our "Generate Schedule" logic.
+model ScheduledActivity {
+  id         String   @id @default(cuid())
+  day        Int
+  order      Int
+  trip       Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  tripId     String
+  activity   Activity @relation(fields: [activityId], references: [id])
+  activityId String
+}
