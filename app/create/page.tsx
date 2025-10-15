@@ -55,7 +55,7 @@ export default function CreateTrip() {
     <Container maxWidth="sm">
       <Box sx={{ py: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom align="center">
-          Create New Trip
+          Schedule Your New Trip
         </Typography>
 
         <Paper sx={{ p: 3, mt: 3 }}>
