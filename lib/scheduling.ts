@@ -126,7 +126,6 @@ export function distributeActivities(
   dailySchedules.forEach((daySchedule, dayIndex) => {
     daySchedule.forEach((activity, activityIndex) => {
       scheduledActivities.push({
-        id: `${activity.id}-${dayIndex}-${activityIndex}`,
         activityId: activity.id,
         day: dayIndex + 1,
         order: activityIndex + 1,

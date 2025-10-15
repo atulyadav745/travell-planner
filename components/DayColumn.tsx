@@ -9,14 +9,18 @@ import { ScheduledActivity } from '@/types/base';
 interface DayColumnProps {
   day: number;
   activities: ScheduledActivity[];
+  onDelete?: (id: string) => Promise<void>;
 }
 
-export default function DayColumn({ day, activities }: DayColumnProps) {
+export default function DayColumn({ day, activities, onDelete }: DayColumnProps) {
   const { setNodeRef } = useDroppable({
     id: `day-${day}`, // Give each column a unique ID
   });
 
-  const activityIds = activities.map(a => a.id);
+  // Filter out any activities without IDs and get their IDs
+  const activityIds = activities
+    .filter(a => a.id !== undefined)
+    .map(a => a.id as string);
 
   return (
     <Box
@@ -25,8 +29,12 @@ export default function DayColumn({ day, activities }: DayColumnProps) {
     >
       <Typography variant="h6" gutterBottom align="center">Day {day}</Typography>
       <SortableContext items={activityIds} strategy={verticalListSortingStrategy}>
-        {activities.map((activity) => (
-          <DraggableActivityCard key={activity.id} scheduledActivity={activity} />
+                {activities.map((activity) => (
+          <DraggableActivityCard 
+            key={activity.id} 
+            scheduledActivity={activity}
+            onDelete={onDelete}
+          />
         ))}
       </SortableContext>
     </Box>

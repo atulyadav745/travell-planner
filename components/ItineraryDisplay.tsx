@@ -11,9 +11,10 @@ import { useState, useEffect } from 'react';
 interface ItineraryDisplayProps {
   trip: Trip | null;
   onScheduleUpdate: (updatedActivities: Pick<ScheduledActivity, 'id' | 'day' | 'order'>[]) => void;
+  onActivityDelete?: (id: string) => Promise<void>;
 }
 
-export default function ItineraryDisplay({ trip, onScheduleUpdate }: ItineraryDisplayProps) {
+export default function ItineraryDisplay({ trip, onScheduleUpdate, onActivityDelete }: ItineraryDisplayProps) {
   const [localActivities, setLocalActivities] = useState(trip?.scheduledActivities || []);
   const [activeActivity, setActiveActivity] = useState<ScheduledActivity | null>(null);
 
@@ -146,12 +147,13 @@ export default function ItineraryDisplay({ trip, onScheduleUpdate }: ItineraryDi
                 <DayColumn
                   day={day}
                   activities={(activitiesByDay?.[day] || []).sort((a, b) => a.order - b.order)}
+                  onDelete={onActivityDelete}
                 />
               </Grid>
             ))}
           </Grid>
           <DragOverlay>
-            {activeActivity ? <DraggableActivityCard scheduledActivity={activeActivity} /> : null}
+            {activeActivity ? <DraggableActivityCard scheduledActivity={activeActivity} onDelete={onActivityDelete} /> : null}
           </DragOverlay>
         </DndContext>
       )}
