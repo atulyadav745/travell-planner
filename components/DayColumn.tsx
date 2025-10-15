@@ -4,7 +4,7 @@ import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { Box, Typography } from '@mui/material';
 import DraggableActivityCard from './DraggableActivityCard';
-import { ScheduledActivity } from '@/types';
+import { ScheduledActivity } from '@/types/base';
 
 interface DayColumnProps {
   day: number;

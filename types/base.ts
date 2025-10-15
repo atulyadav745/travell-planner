@@ -7,6 +7,8 @@ export interface Trip {
   scheduledActivities: ScheduledActivity[];
 }
 
+export type ActivityType = 'MUSEUM' | 'LANDMARK' | 'PARK' | 'RESTAURANT' | 'SHOPPING' | 'ENTERTAINMENT';
+
 export interface Activity {
   id: string;
   name: string;
@@ -15,6 +17,9 @@ export interface Activity {
   latitude: number;
   longitude: number;
   typicalDuration: number;
+  priority: number;
+  activityType: ActivityType;
+  bestTimeOfDay: string | null;
 }
 
 export interface ScheduledActivity {
