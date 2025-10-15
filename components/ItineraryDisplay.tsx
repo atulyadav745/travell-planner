@@ -5,7 +5,7 @@ import { arrayMove } from '@dnd-kit/sortable';
 import { Box, Typography, Paper, Grid } from '@mui/material';
 import DayColumn from './DayColumn';
 import DraggableActivityCard from './DraggableActivityCard';
-import { Trip, ScheduledActivity } from '@/types';
+import { Trip, ScheduledActivity } from '@/types/base';
 import { useState, useEffect } from 'react';
 
 interface ItineraryDisplayProps {

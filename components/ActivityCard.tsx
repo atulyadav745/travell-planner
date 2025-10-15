@@ -1,7 +1,7 @@
 'use client';
 
 import { Card, CardContent, Typography, Button, CardActions, CircularProgress } from '@mui/material';
-import { Activity } from '@/types';
+import { Activity } from '@/types/base';
 
 interface ActivityCardProps {
   activity: Activity;

@@ -1,6 +1,6 @@
 import { Container, Typography, Box, Alert } from '@mui/material';
 import ShareableItinerary from '@/components/ShareableItinerary';
-import { Trip } from '@/types';
+import { Trip } from '@/types/base';
 import prisma from '@/lib/prisma';
 import jwt from 'jsonwebtoken';
 import { notFound } from 'next/navigation';
@@ -20,7 +20,20 @@ async function getTripDataFromToken(token: string): Promise<Trip | null> {
           include: {
             scheduledActivities: {
               include: {
-                activity: true,
+                activity: {
+                  select: {
+                    id: true,
+                    name: true,
+                    description: true,
+                    city: true,
+                    latitude: true,
+                    longitude: true,
+                    typicalDuration: true,
+                    priority: true,
+                    activityType: true,
+                    bestTimeOfDay: true,
+                  }
+                },
               },
               orderBy: [
                 { day: 'asc' },

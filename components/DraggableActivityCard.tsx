@@ -4,7 +4,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { Card, CardContent, Typography, Box } from '@mui/material';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { ScheduledActivity } from '@/types';
+import { ScheduledActivity } from '@/types/base';
 
 interface DraggableActivityCardProps {
   scheduledActivity: ScheduledActivity;
