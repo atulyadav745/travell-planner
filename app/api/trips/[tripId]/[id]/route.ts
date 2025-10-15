@@ -7,12 +7,10 @@ export async function GET(
   try {
     const url = new URL(request.url);
     const pathParts = url.pathname.split('/');
-    const tripId = pathParts[pathParts.length - 1];
+    const id = pathParts[pathParts.length - 1];
     
     const trip = await prisma.trip.findUnique({
-      where: {
-        id: tripId,
-      },
+      where: { id: id },
       include: {
         scheduledActivities: {
           include: {
@@ -27,13 +25,18 @@ export async function GET(
     });
 
     if (!trip) {
-      return NextResponse.json({ error: 'Trip not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'Trip not found' },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(trip);
   } catch (error) {
-    console.error('Failed to fetch trip:', error);
-    return NextResponse.json({ error: 'Failed to fetch trip' }, { status: 500 });
+    console.error('Error fetching trip:', error);
+    return NextResponse.json(
+      { error: 'Error fetching trip' },
+      { status: 500 }
+    );
   }
 }
-

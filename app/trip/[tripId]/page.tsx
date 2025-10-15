@@ -114,11 +114,12 @@ export default function TripPage() {
       setIsGenerating(true);
       setError(null);
       try {
-          await axios.post(`/api/trips/${tripId}/generate-schedule`);
-          await fetchTripData();
-      } catch (err) {
+          const response = await axios.post(`/api/trips/${tripId}/schedule-activities`);
+          setTrip(response.data);
+      } catch (err: any) {
           console.error('Failed to generate schedule:', err);
-          setError('Failed to generate schedule. Make sure you have selected at least one activity.');
+          const errorMessage = err.response?.data?.error || 'Failed to generate schedule. Make sure you have selected at least one activity.';
+          setError(errorMessage);
       } finally {
           setIsGenerating(false);
       }
@@ -138,6 +139,17 @@ export default function TripPage() {
       } catch (err) {
           console.error('Failed to update schedule:', err);
           setError('Failed to save schedule changes. Reverting.');
+          fetchTripData();
+      }
+  };
+
+  const handleActivityDelete = async (activityId: string) => {
+      try {
+          await axios.delete(`/api/scheduled-activities/${activityId}`);
+          await fetchTripData();
+      } catch (err) {
+          console.error('Failed to delete activity:', err);
+          setError('Failed to delete activity. Please try again.');
           fetchTripData();
       }
   };
@@ -199,7 +211,7 @@ export default function TripPage() {
         </Grid>
 
         <Grid item xs={12} md={8}>
-          <ItineraryDisplay trip={trip} onScheduleUpdate={handleScheduleUpdate} />
+          <ItineraryDisplay trip={trip} onScheduleUpdate={handleScheduleUpdate} onActivityDelete={handleActivityDelete} />
         </Grid>
       </Grid>
       
