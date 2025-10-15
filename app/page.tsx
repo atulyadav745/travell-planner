@@ -2,12 +2,18 @@
 
 import { Container, Box, Typography, Button, Stack } from '@mui/material';
 import { useRouter } from 'next/navigation';
-
+import World from '../components/World'; // --- IGNORE ---
 export default function HomePage() {
   const router = useRouter();
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" sx={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
       <Box sx={{ py: 8 }}>
         <Stack spacing={4} alignItems="center">
           <Typography variant="h3" component="h1" align="center" gutterBottom>
@@ -28,6 +34,7 @@ export default function HomePage() {
           </Button>
         </Stack>
       </Box>
+      <World/>
     </Container>
   );
 }
