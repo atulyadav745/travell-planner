@@ -18,6 +18,7 @@ export interface Activity {
   longitude: number;
   typicalDuration: number;
   priority: number;
+  imageUrl?: string;
   activityType: ActivityType;
   bestTimeOfDay: string | null;
 }

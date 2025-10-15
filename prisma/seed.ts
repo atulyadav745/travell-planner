@@ -14,6 +14,7 @@ const parisActivities = [
     activityType: ActivityType.LANDMARK,
     priority: 5, // High priority as it's an iconic landmark
     bestTimeOfDay: 'AFTERNOON',
+    imageUrl: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=800&q=80',
   },
   {
     name: 'Louvre Museum',
@@ -25,6 +26,7 @@ const parisActivities = [
     activityType: ActivityType.MUSEUM,
     priority: 5,
     bestTimeOfDay: 'MORNING',
+    imageUrl: 'https://images.unsplash.com/photo-1544813545-4827b64fcacb?auto=format&fit=crop&w=800&q=80',
   },
   {
     name: 'Notre-Dame Cathedral',
@@ -36,6 +38,7 @@ const parisActivities = [
     activityType: ActivityType.LANDMARK,
     priority: 4,
     bestTimeOfDay: 'MORNING',
+    imageUrl: 'https://images.unsplash.com/photo-1584721285593-75d5ca7fb85b?auto=format&fit=crop&w=800&q=80',
   },
   {
     name: 'Arc de Triomphe',
@@ -47,6 +50,7 @@ const parisActivities = [
     activityType: ActivityType.LANDMARK,
     priority: 3,
     bestTimeOfDay: 'AFTERNOON',
+    imageUrl: 'https://images.unsplash.com/photo-1595123550441-d377e017de6a?auto=format&fit=crop&w=800&q=80',
   },
   {
     name: 'Sacre-Coeur Basilica',
@@ -58,6 +62,7 @@ const parisActivities = [
     activityType: ActivityType.LANDMARK,
     priority: 4,
     bestTimeOfDay: 'MORNING',
+    imageUrl: 'https://images.unsplash.com/photo-1595629203418-4581f62aff3b?auto=format&fit=crop&w=800&q=80',
   },
   {
     name: 'Musée d\'Orsay',
@@ -69,6 +74,7 @@ const parisActivities = [
     activityType: ActivityType.MUSEUM,
     priority: 4,
     bestTimeOfDay: 'AFTERNOON',
+    imageUrl: 'https://images.unsplash.com/photo-1587179518496-47977cfc7c8a?auto=format&fit=crop&w=800&q=80',
   },
   {
     name: 'Sainte-Chapelle',
@@ -80,6 +86,7 @@ const parisActivities = [
     activityType: ActivityType.LANDMARK,
     priority: 3,
     bestTimeOfDay: 'MORNING',
+    imageUrl: 'https://images.unsplash.com/photo-1590459754004-eb2473cd805c?auto=format&fit=crop&w=800&q=80',
   },
   {
     name: 'Jardin du Luxembourg',
@@ -91,6 +98,7 @@ const parisActivities = [
     activityType: ActivityType.PARK,
     priority: 3,
     bestTimeOfDay: 'AFTERNOON',
+    imageUrl: 'https://images.unsplash.com/photo-1589997461746-096f6c787484?auto=format&fit=crop&w=800&q=80',
   },
   {
     name: 'Montmartre',
